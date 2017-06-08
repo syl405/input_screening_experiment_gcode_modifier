@@ -19,7 +19,7 @@ def swap_col_gcode(base_gcode_path, col_gcode_path, recombinant_gcode_path, base
 	# Pass lines for base layers through to output file
 	for base_line in base_fs:
 		if base_line.startswith(';$ layer ' + str(int(insert_after_layer + 1))):
-			print 'finished writing base layers'
+			#print 'finished writing base layers'
 			break # exit once the last base layer is passes through
 		output_fs.write(base_line) # pass lines straight through for base layers
 	base_fs.close() # close stream for the base gcode
@@ -29,7 +29,7 @@ def swap_col_gcode(base_gcode_path, col_gcode_path, recombinant_gcode_path, base
 	for col_line in col_fs:
 		if col_line.startswith(';$ layer ' + str(int(take_from_layer))): # flip toggle once first layer reached
 			base_layers_completed = 1
-			print('start writing col layers')
+			#print('start writing col layers')
 			output_fs.write('; BEGIN GRAFT\n')
 			output_fs.write('G0 X189 F10800\n')
 			output_fs.write('G0 Y0\n')
