@@ -1,4 +1,20 @@
 def swap_col_gcode(base_gcode_path, col_gcode_path, recombinant_gcode_path, base_slice_thickness, col_slice_thickness, base_thickness, col_temp):
+	"""
+	Grafts G-code lines corresponding to experimental column layers onto a stub gcode file corresponding to a datum base printed using almost-default settings. 
+
+	Inputs:
+	- base_gcode_path: string containing path to gcode file from which base layers will be taken
+	- col_gcode_path: string containing path to gcode file from which column layers will be taken
+	- recombinant_gcode_path: string containing path to which recombinant gcode file will be written
+	- base_slice_thickness: slice thickness (layer height) setting used in base gcode file
+	- col_slice_thickness: slice thickness (layer height) setting used in column gcode file
+	- base_thickness: nominal value of total base thickness. Must be an integral multiple of both base_slice_thickness and col_slice_thickness so that beginning of col layers line up
+	- col_temp: hotend temperature used to print column layers, recombinant gcode adjusts temperature after printing base layers and before printing col layers
+
+	Outputs:
+	- recombinant_gcode_path: returns path to recombinant gcode file upon successful completion
+	"""
+
 	# Validate base thickness is integral multiple of slice thickness
 	if not base_thickness%base_slice_thickness < 0.0000001:
 		raise ValueError('Base slice thickness is not integral multiple of slice thickness.')
