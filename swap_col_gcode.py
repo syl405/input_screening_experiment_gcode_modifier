@@ -16,10 +16,10 @@ def swap_col_gcode(base_gcode_path, col_gcode_path, recombinant_gcode_path, base
 	"""
 
 	# Validate base thickness is integral multiple of slice thickness
-	if not base_thickness%base_slice_thickness < 0.0000001:
-		raise ValueError('Base slice thickness is not integral multiple of slice thickness.')
-	elif not base_thickness%col_slice_thickness < 0.0000001:
-		raise ValueError('Column slice thickness is not integral multiple of slice thickness.')
+	# if not base_thickness%base_slice_thickness < 0.0000001:
+	# 	raise ValueError('Base slice thickness is not integral multiple of slice thickness.')
+	# elif not base_thickness%col_slice_thickness < 0.0000001:
+	# 	raise ValueError('Column slice thickness is not integral multiple of slice thickness.')
 
 	# Determine location in base gcode file at which to insert graft
 	insert_after_layer = base_thickness/base_slice_thickness - 1 # add 1 because layers are zero-indexed
@@ -51,7 +51,7 @@ def swap_col_gcode(base_gcode_path, col_gcode_path, recombinant_gcode_path, base
 			output_fs.write('G0 Y0\n')
 			output_fs.write('G1 Z' + str(base_thickness+col_slice_thickness) + ' F12000.000\n')
 			output_fs.write('M104 S'+ str(col_temp) + '; set temperature\n')
-			output_fs.write('M109 T0 S' + str(col_temp) + '; wait for nozzle to heat\n')
+			output_fs.write('M109 T0 R' + str(col_temp) + '; wait for nozzle to heat or cool\n')
 		if base_layers_completed:
 			output_fs.write(col_line)
 	col_fs.close()
